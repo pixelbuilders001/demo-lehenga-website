@@ -115,7 +115,7 @@ const Collection = () => {
   return (
     <Layout>
       {/* Page Header */}
-      <section className="bg-secondary py-12 md:py-16">
+      {/* <section className="bg-secondary py-12 md:py-16">
         <div className="container-luxury text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -133,7 +133,7 @@ const Collection = () => {
             </p>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       <section className="section-padding">
         <div className="container-luxury">
