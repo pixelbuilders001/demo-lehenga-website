@@ -1,12 +1,12 @@
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, ShoppingBag, Heart, User, Menu, X } from "lucide-react";
+import { Search, ShoppingBag, Heart, User, Menu } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useCart } from "@/store/cartStore";
 import { useWishlist } from "@/store/wishlistStore";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const location = useLocation();
   const cartItems = useCart((state) => state.getTotalItems());
@@ -30,15 +30,46 @@ const Header = () => {
       <div className="container-luxury">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Mobile Menu Button */}
-          <button
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="md:hidden p-2 -ml-2"
-          >
-            {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <button className="md:hidden p-2 -ml-2">
+                <Menu className="w-6 h-6" />
+              </button>
+            </SheetTrigger>
+            <SheetContent side="left" className="w-[280px] sm:w-[300px]">
+              <div className="flex flex-col gap-6 pt-6">
+                <Link
+                  to="/"
+                  className="flex-shrink-0"
+                >
+                  <h1 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                    VANYA
+                  </h1>
+                </Link>
+
+                <nav className="flex flex-col gap-4">
+                  {navLinks.map((link) => (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                    >
+                      {link.name}
+                    </Link>
+                  ))}
+                  <Link
+                    to="/account"
+                    className="text-lg font-medium text-foreground hover:text-primary transition-colors py-2"
+                  >
+                    My Account
+                  </Link>
+                </nav>
+              </div>
+            </SheetContent>
+          </Sheet>
 
           {/* Logo */}
-          <Link to="/" className="flex-shrink-0">
+          <Link to="/" className="hidden md:flex-shrink-0">
             <h1 className="font-serif text-2xl md:text-3xl font-bold tracking-tight text-foreground">
               VANYA
             </h1>
@@ -121,38 +152,6 @@ const Header = () => {
                 />
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Mobile Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="md:hidden border-t border-border overflow-hidden bg-background"
-          >
-            <nav className="container-luxury py-4 space-y-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.name}
-                  to={link.path}
-                  className="block py-2 text-lg font-medium text-foreground"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {link.name}
-                </Link>
-              ))}
-              <Link
-                to="/account"
-                className="block py-2 text-lg font-medium text-foreground"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                My Account
-              </Link>
-            </nav>
           </motion.div>
         )}
       </AnimatePresence>
